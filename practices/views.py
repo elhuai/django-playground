@@ -14,3 +14,17 @@ def greeting(request):
 def search(request):
     keyword = request.GET.get("q", "")
     return HttpResponse(f"Keyword: {keyword}")
+
+
+def product_list(request):
+    category = request.GET.get("category", "all")
+    sort = request.GET.get("sort", "newest")
+    page = request.GET.get("page", "1")
+    return HttpResponse(f"分類: {category}, 排序: {sort}, 頁數: {page}")
+
+
+def personal_info(request):
+    name = request.GET.get("name", "Django")
+    age = request.GET.get("age", "10")
+    gender = request.GET.get("gender", "male")
+    return HttpResponse(f"性名: {name}, 年紀: {age}, 性別: {gender}")
