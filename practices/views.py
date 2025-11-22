@@ -68,3 +68,18 @@ def color_filter(request):
         "practices/color_filter.html",
         {"colors": colors},
     )
+
+
+def contact(request):
+    context = {}
+    if request.method == "POST":
+        name = request.POST.get("name", "")
+        email = request.POST.get("email", "")
+        message = request.POST.get("message", "")
+        context = {
+            "success": True,  # 一定要加這條
+            "name": name,
+            "email": email,
+            "message": message,
+        }
+    return render(request, "practices/contact.html", context)
