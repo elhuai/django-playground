@@ -15,4 +15,14 @@ urlpatterns = [
     path("personal_info/", views.personal_info, name="personal_info"),
     path("products/filter/", views.filter_products, name="product_filter"),
     path("products/amount/<int:number>/", views.product_amount, name="product_amount"),
+    path(
+        "products/manufacturing/date/<int:year>/<int:month>/<slug:product_content>/",
+        views.product_manufacturing_date,
+        name="product_manufacturing_date",
+    ),
+    path(
+        "users/<str:username>/articles/",
+        views.user_articles,
+        name="user_articles",
+    ),
 ]
