@@ -33,3 +33,7 @@ def personal_info(request):
 def filter_products(request):
     colors = request.GET.getlist("color")
     return HttpResponse(f"選擇的顏色: {', '.join(colors)}")
+
+
+def product_amount(request, number):
+    return HttpResponse(f"商品數量:, {number}個")
