@@ -37,6 +37,7 @@ INSTALLED_APPS = [  # 這個專案啟用的模組有哪些
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "practices",
 ]
 
 MIDDLEWARE = [
