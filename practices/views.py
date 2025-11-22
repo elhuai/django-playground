@@ -28,3 +28,8 @@ def personal_info(request):
     age = request.GET.get("age", "10")
     gender = request.GET.get("gender", "male")
     return HttpResponse(f"性名: {name}, 年紀: {age}, 性別: {gender}")
+
+
+def filter_products(request):
+    colors = request.GET.getlist("color")
+    return HttpResponse(f"選擇的顏色: {', '.join(colors)}")
