@@ -13,6 +13,9 @@ check = [
     "djlint>=1.36.4",
 ]
 
+[tool.uv]
+default-groups = ["check"] 
+
 [tool.djlint]
 profile = "django"
 max_blank_lines = 1
