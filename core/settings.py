@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 第三方 apps
     "django_bootstrap5",
+    "django_extensions",
     # 本地 apps
     "practices",
     "blog",
 ]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
