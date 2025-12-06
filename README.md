@@ -1,6 +1,8 @@
 # Django Playground 🎯
 
 一個使用 Django 5.2 構建的部落格系統，採用日系暖色系 UI 設計，實現完整的文章管理功能。
+<img width="1216" height="875" alt="image" src="https://github.com/user-attachments/assets/9913c1aa-7a17-4210-b174-ffc1684a4b34" />
+
 
 ## ✨ 功能特色
 
