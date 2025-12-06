@@ -38,6 +38,7 @@ INSTALLED_APPS = [  # 這個專案啟用的模組有哪些
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "practices",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -55,7 +56,9 @@ ROOT_URLCONF = "core.urls"  # 最上層的URL檔案
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
