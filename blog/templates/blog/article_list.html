@@ -1,22 +1,22 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
 
 {% block title %}
   文章列表 - Django 大冒險
 {% endblock title %}
 
-{% block content %}
-  <h2>
+{% block blog_content %}
+  <h2 class="mb-4">  
     文章列表
   </h2>
-  <ul>
+  <div class="row">
     {% for article in articles %}
-      <li>
-        {{ article.title }} - {{ article.author.name }}
-      </li>
+      {% include "blog/components/article_card.html" %}
     {% empty %}
-      <li>
-        目前沒有文章
-      </li>
+      <div class="col-12">
+        <div class="alert alert-info">  
+          目前沒有文章
+        </div>
+      </div>
     {% endfor %}
-  </ul>
-{% endblock content %}
+  </div>
+{% endblock blog_content %}

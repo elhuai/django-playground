@@ -30,13 +30,18 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [  # 這個專案啟用的模組有哪些
+
+INSTALLED_APPS = [
+    # Django 內建 apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 第三方 apps
+    "django_bootstrap5",
+    # 本地 apps
     "practices",
     "blog",
 ]
