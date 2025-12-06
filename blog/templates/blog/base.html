@@ -15,6 +15,30 @@
           </ul>
         </div>
       </div>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            作者管理
+          </h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a href="{% url 'author_list' %}" class="text-decoration-none">作者列表</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            標籤管理
+          </h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a href="{% url 'tag_list' %}" class="text-decoration-none">標籤列表</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </aside>
     <div class="col-md-9">
       {% block blog_content %}

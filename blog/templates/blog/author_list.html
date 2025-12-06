@@ -1,0 +1,38 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+  作者列表 - Django 大冒險
+{% endblock title %}
+
+{% block blog_content %}
+  <h2 class="mb-4">  
+    作者列表
+  </h2>
+  <div class="row">
+    {% for author in authors %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ author.name }}</h5>
+            <p class="card-text text-muted">
+              <i class="bi bi-envelope"></i> {{ author.email }}
+            </p>
+            {% if author.bio %}
+              <p class="card-text">{{ author.bio|truncatewords:20 }}</p>
+            {% endif %}
+            <hr>
+            <p class="text-muted small mb-0">
+              <i class="bi bi-file-text"></i> 文章數: {{ author.articles.count }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info">  
+          目前沒有作者
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock blog_content %}
