@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% block title %}
+  建立文章 - Django 大冒險
+{% endblock title %}
+{% block blog_content %}
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        建立文章
+      </h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">
+            建立文章
+          </button>
+          <a href="{% url 'blog:article_list' %}" class="btn btn-secondary">
+            取消
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock blog_content %}

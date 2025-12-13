@@ -7,4 +7,5 @@ urlpatterns = [
     path("articles/<int:article_id>/", views.article_detail, name="article_detail"),
     path("authors/", views.author_list, name="author_list"),
     path("tags/", views.tag_list, name="tag_list"),
+    path("articles/create/", views.article_create, name="article_create"),
 ]
