@@ -24,8 +24,10 @@ SECRET_KEY = "django-insecure-0hz0w8r+4_&*mb-l(#hm7f@5xxol@)m37j8r2!7x*+vd@gr-p7
 # SECRET_KEY 很重要 每個專案都要有獨立的
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # 正式環境的時候必須是關閉的
-
 ALLOWED_HOSTS = []
+# DEBUG = False
+
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # WhiteNoise 處理靜態檔案
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -124,7 +127,7 @@ USE_TZ = True  # 啟用時區
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-
+# STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "templates",
 ]

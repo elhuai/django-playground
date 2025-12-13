@@ -8,6 +8,7 @@ dependencies = [
     "django>=5.2.8",
     "django-bootstrap5>=25.3",
     "django-extensions>=4.1",
+    "whitenoise>=6.11.0",
 ]
 
 [dependency-groups]
@@ -15,6 +16,7 @@ check = [
     "djlint>=1.36.4",
 ]
 dev = [
+    "django-debug-toolbar>=6.1.0",
     "ipython>=9.8.0",
     "werkzeug>=3.1.4",
 ]
