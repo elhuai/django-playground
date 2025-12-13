@@ -26,17 +26,9 @@ def tag_list(request):
     tags = Tag.objects.all()
     return render(request, "blog/tag_list.html", {"tags": tags})
 
-
 def article_create(request):
-    if request.method == "POST":
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            article = form.save()
-            return redirect("blog:article_detail", article_id=article.id)
-    else:
-        form = ArticleForm()
-    return render(
-        request,
-        "blog/article_create.html",
-        {"form": form},
-    )
+    form = ArticleForm(request.POST or None)
+    if form.is_valid():
+        article = form.save()
+        return redirect("blog:article_detail", article_id=article.id)
+    return render(request, "blog/article_create.html", {"form": form})
