@@ -30,3 +30,12 @@ class ArticleForm(forms.ModelForm):
             error_message = "標題不能包含「測試」"
             raise forms.ValidationError(error_message)
         return title
+
+    def clean(self):
+        cleaned_data = super().clean()
+        title = cleaned_data.get("title")
+        content = cleaned_data.get("content")
+
+        if title == content:
+            raise forms.ValidationError("內容不應該與標題相同")
+        return cleaned_data

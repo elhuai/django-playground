@@ -1,23 +1,26 @@
+
 {% extends "blog/base.html" %}
+{% load django_bootstrap5 %}
 {% block title %}
   建立文章 - Django 大冒險
 {% endblock title %}
 {% block blog_content %}
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title">
+      <h2 class="card-title mb-4">
         建立文章
       </h2>
+      {% bootstrap_form_errors form type='non_fields' %}
       <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary">
-            建立文章
-          </button>
-          <a href="{% url 'blog:article_list' %}" class="btn btn-secondary">
-            取消
-          </a>
+        {% bootstrap_field form.title addon_before='<i class="bi bi-pencil"></i>' placeholder="請輸入標題..." %}
+        {% bootstrap_field form.content addon_before='<i class="bi bi-file-text"></i>' rows=10 %}
+        {% bootstrap_field form.author addon_before='<i class="bi bi-person"></i>' %}
+        <div class="d-flex gap-2 mt-3">
+          {% bootstrap_button button_type="submit" content="建立文章" %}
+          {% bootstrap_button button_type="reset" content="清除內容" button_class="btn-info" %}
+          {% url 'blog:article_list' as cancel_url %}
+          {% bootstrap_button button_type="link" href=cancel_url content="取消" button_class="btn-secondary" %}
         </div>
       </form>
     </div>
