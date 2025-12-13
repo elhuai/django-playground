@@ -25,6 +25,9 @@ SECRET_KEY = "django-insecure-0hz0w8r+4_&*mb-l(#hm7f@5xxol@)m37j8r2!7x*+vd@gr-p7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # 正式環境的時候必須是關閉的
 ALLOWED_HOSTS = []
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 # DEBUG = False
 
 # ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
@@ -48,6 +51,8 @@ INSTALLED_APPS = [
     "practices",
     "blog",
 ]
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # WhiteNoise 處理靜態檔案
@@ -58,7 +63,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
+if DEBUG:
+    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware", *MIDDLEWARE]
 ROOT_URLCONF = "core.urls"  # 最上層的URL檔案
 
 TEMPLATES = [
