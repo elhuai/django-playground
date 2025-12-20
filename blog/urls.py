@@ -5,7 +5,6 @@ app_name = "blog"
 urlpatterns = [
     path("articles/", views.article_list, name="article_list"),
     path("articles/<int:article_id>/", views.article_detail, name="article_detail"),
-    path("tags/", views.tag_list, name="tag_list"),
     path("articles/create/", views.article_create, name="article_create"),
     path("articles/<int:article_id>/edit/", views.article_edit, name="article_edit"),
     path(
@@ -13,4 +12,6 @@ urlpatterns = [
     ),
     path("authors/", views.author_list, name="author_list"),
     path("authors/create/", views.author_create, name="author_create"),
+    path("tags/", views.tag_list, name="tag_list"),
+    path("tags/create/", views.tag_create, name="tag_create"),
 ]

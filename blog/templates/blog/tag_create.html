@@ -1,0 +1,18 @@
+
+{% extends "blog/base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}
+  新增標籤 - Django 大冒險
+{% endblock title %}
+{% block blog_content %}
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title mb-4">
+        新增標籤
+      </h2>
+       {% url 'blog:tag_list' as cancel_url %}
+      {% include "blog/components/tag_form.html" with submit_text="新增標籤" show_reset=True %}
+    
+    </div>
+  </div>
+{% endblock blog_content %}

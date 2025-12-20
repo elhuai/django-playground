@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import Article, Author, Tag
-from blog.forms import ArticleForm, AuthorForm
+from blog.forms import ArticleForm, AuthorForm, TagForm
 from django.utils import timezone
 from django.contrib import messages
 from blog.filters import ArticleFilter, AuthorFilter, TagFilter
@@ -78,3 +78,12 @@ def tag_list(request):
         queryset=Tag.objects.prefetch_related("articles"),
     )
     return render(request, "blog/tag_list.html", {"filter": tags_filter})
+
+
+def tag_create(request):
+    form = TagForm(request.POST or None)
+    if form.is_valid():
+        tag = form.save()
+        messages.success(request, f"標籤「{tag.name}」已成功建立。")
+        return redirect("blog:tag_list")
+    return render(request, "blog/tag_create.html", {"form": form})
