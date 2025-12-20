@@ -8,4 +8,5 @@ urlpatterns = [
     path("authors/", views.author_list, name="author_list"),
     path("tags/", views.tag_list, name="tag_list"),
     path("articles/create/", views.article_create, name="article_create"),
+    path("articles/<int:article_id>/edit/", views.article_edit, name="article_edit"),
 ]
