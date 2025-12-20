@@ -72,6 +72,14 @@ def author_create(request):
     return render(request, "blog/author_create.html", {"form": form})
 
 
+def author_detail(request, author_id):
+    author = get_object_or_404(
+        Author.objects.prefetch_related("articles"),
+        id=author_id,
+    )
+    return render(request, "blog/author_detail.html", {"author": author})
+
+
 def tag_list(request):
     tags_filter = TagFilter(
         request.GET or None,

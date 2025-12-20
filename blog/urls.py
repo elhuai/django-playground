@@ -12,6 +12,7 @@ urlpatterns = [
     ),
     path("authors/", views.author_list, name="author_list"),
     path("authors/create/", views.author_create, name="author_create"),
+    path("authors/<int:author_id>/", views.author_detail, name="author_detail"),
     path("tags/", views.tag_list, name="tag_list"),
     path("tags/create/", views.tag_create, name="tag_create"),
 ]

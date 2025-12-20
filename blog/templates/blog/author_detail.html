@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+  {{ author.name }}
+{% endblock title %}
+
+{% block blog_content %}
+  <nav aria-label="breadcrumb" class="d-none d-md-block">  
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'blog:author_list' %}">作者列表</a>
+      </li>
+      <li class="breadcrumb-item active">
+        {{ author.name }}
+      </li>
+    </ol>
+  </nav>
+  <article class="card">
+    <div class="card-body">
+      <h1 class="card-title fs-3 fs-md-2 fs-lg-1">  
+        {{ author.name }}
+      </h1>
+        
+        <small class="text-muted d-none d-md-inline">  
+          創立時間：{{ author.created_at|date:"Y-m-d" }}
+        </small>
+      </div>
+  </article>
+{% endblock blog_content %}
