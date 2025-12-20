@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # 第三方 apps
     "django_bootstrap5",
     "django_extensions",
+    "django_filters",
     # 本地 apps
     "practices",
     "blog",
