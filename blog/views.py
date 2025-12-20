@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import Article, Author, Tag
-from blog.forms import ArticleForm
+from blog.forms import ArticleForm, AuthorForm
 from django.utils import timezone
 from django.contrib import messages
 from blog.filters import ArticleFilter, AuthorFilter, TagFilter
@@ -61,6 +61,15 @@ def author_list(request):
         queryset=Author.objects.prefetch_related("articles"),
     )
     return render(request, "blog/author_list.html", {"filter": author_filter})
+
+
+def author_create(request):
+    form = AuthorForm(request.POST or None)
+    if form.is_valid():
+        author = form.save()
+        messages.success(request, f"作者「{author.name}」已成功建立。")
+        return redirect("blog:author_list")
+    return render(request, "blog/author_create.html", {"form": form})
 
 
 def tag_list(request):
