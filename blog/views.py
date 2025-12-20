@@ -3,7 +3,7 @@ from blog.models import Article, Author, Tag
 from blog.forms import ArticleForm
 from django.utils import timezone
 from django.contrib import messages
-from blog.filters import ArticleFilter
+from blog.filters import ArticleFilter, AuthorFilter, TagFilter
 
 
 def article_list(request):
@@ -22,16 +22,6 @@ def article_detail(request, article_id):
         id=article_id,
     )
     return render(request, "blog/article_detail.html", {"article": article})
-
-
-def author_list(request):
-    authors = Author.objects.all()
-    return render(request, "blog/author_list.html", {"authors": authors})
-
-
-def tag_list(request):
-    tags = Tag.objects.all()
-    return render(request, "blog/tag_list.html", {"tags": tags})
 
 
 def article_create(request):
@@ -63,3 +53,19 @@ def article_delete(request, article_id):
         messages.success(request, f"文章「{article.title}」已成功刪除。")
         return redirect("blog:article_list")
     return render(request, "blog/article_delete.html", {"article": article})
+
+
+def author_list(request):
+    author_filter = AuthorFilter(
+        request.GET or None,
+        queryset=Author.objects.prefetch_related("articles"),
+    )
+    return render(request, "blog/author_list.html", {"filter": author_filter})
+
+
+def tag_list(request):
+    tags_filter = TagFilter(
+        request.GET or None,
+        queryset=Tag.objects.prefetch_related("articles"),
+    )
+    return render(request, "blog/tag_list.html", {"filter": tags_filter})

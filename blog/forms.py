@@ -1,5 +1,5 @@
 from django import forms
-from blog.models import Article
+from blog.models import Article, Author, Tag
 
 
 class ArticleForm(forms.ModelForm):
@@ -39,3 +39,44 @@ class ArticleForm(forms.ModelForm):
         if title == content:
             raise forms.ValidationError("內容不應該與標題相同")
         return cleaned_data
+
+
+class AuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ["name", "email", "bio"]  # 表單要產生的欄位
+        labels = {
+            "name": "姓名",
+            "email": "電子信箱",
+            "bio": "簡介",
+        }
+        error_messages = {
+            "name": {
+                "required": "姓名不能空白",
+            },
+            "email": {
+                "required": "請輸入正確的電子信箱",
+            },
+        }
+        widgets = {
+            "bio": forms.Textarea(attrs={"rows": 5}),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        # 可以在這裡加入自訂的 email 驗證邏輯
+        return email
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ["name"]  # 表單要產生的欄位
+        labels = {
+            "name": "姓名",
+        }
+        error_messages = {
+            "name": {
+                "required": "姓名不能空白",
+            },
+        }

@@ -1,5 +1,7 @@
 {% extends "blog/base.html" %}
 
+{% load django_bootstrap5 %}
+
 {% block title %}
   作者列表 - Django Blog
 {% endblock title %}
@@ -8,8 +10,23 @@
   <h2 class="mb-4">  
     作者列表
   </h2>
+     <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">
+        篩選條件
+      </h5>
+      <form method="get">
+        {% bootstrap_form filter.form %}
+
+        <div class="d-flex gap-2">
+          {% bootstrap_button button_type="submit" content="搜尋" %}
+          <a href="{% url 'blog:author_list' %}" class="btn btn-secondary">清除</a>
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="row">
-    {% for author in authors %}
+    {% for author in filter.qs %}
       <div class="col-md-6 col-lg-4 mb-4">
         <div class="card h-100">
           <div class="card-body">
