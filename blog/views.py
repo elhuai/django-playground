@@ -1,11 +1,16 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import Article, Author, Tag
 from blog.forms import ArticleForm
+from django.utils import timezone
 
 
 def article_list(request):
     # articles = Article.objects.all()
-    articles = Article.objects.select_related("author").prefetch_related("tags")
+    articles = (
+        Article.objects.filter(is_deleted=False)
+        .select_related("author")
+        .prefetch_related("tags")
+    )
     return render(request, "blog/article_list.html", {"articles": articles})
 
 
@@ -43,3 +48,13 @@ def article_edit(request, article_id):
         return redirect("blog:article_detail", article_id=article.id)
 
     return render(request, "blog/article_edit.html", {"form": form, "article": article})
+
+
+def article_delete(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == "POST":
+        article.is_deleted = True
+        article.deleted_at = timezone.now()
+        article.save()  # 不是 delete()！
+        return redirect("blog:article_list")
+    return render(request, "blog/article_delete.html", {"article": article})
