@@ -2,7 +2,7 @@
 
 {% bootstrap_form_errors form type='non_fields' %}
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
   {% bootstrap_field form.title addon_before='<i class="bi bi-pencil"></i>' placeholder="請輸入標題..." %}

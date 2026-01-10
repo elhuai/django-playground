@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     # 本地 apps
     "practices",
     "blog",
+    # 工具 apps (必須放在最後)
+    "django_cleanup.apps.CleanupConfig",
 ]
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
@@ -152,6 +154,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 登入/登出設定
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/blog/articles/"
+LOGOUT_REDIRECT_URL = "/blog/articles/"
+
 # Django Extensions
 
 SHELL_PLUS_PRINT_SQL_TRUNCATE = None
