@@ -9,7 +9,9 @@ from blog.filters import ArticleFilter, AuthorFilter, TagFilter
 def article_list(request):
     filter_ = ArticleFilter(
         request.GET or None,
-        queryset=Article.objects.select_related("author").prefetch_related("tags"),
+        queryset=Article.objects.filter(is_deleted=False)
+        .select_related("author")
+        .prefetch_related("tags"),
     )  # filter 有一個內建function所以刻意加上底線 filter_ 來命名
     return render(
         request, "blog/article_list.html", {"filter": filter_}
@@ -53,6 +55,18 @@ def article_delete(request, article_id):
         messages.success(request, f"文章「{article.title}」已成功刪除。")
         return redirect("blog:article_list")
     return render(request, "blog/article_delete.html", {"article": article})
+
+
+def article_bulk_delete(request):
+    if request.method == "POST":
+        article_ids = request.POST.getlist("article_ids")
+        if article_ids:
+            deleted_count, _ = Article.objects.filter(id__in=article_ids).delete()
+            messages.success(request, f"已成功刪除 {deleted_count} 篇文章")
+        else:
+            messages.warning(request, "請先選取至少一個要刪除的文章")
+
+    return redirect("blog:article_list")
 
 
 def author_list(request):

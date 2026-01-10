@@ -15,19 +15,29 @@
       新增作者
     </a>
   </div>
-     <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">
-        篩選條件
-      </h5>
-      <form method="get">
-        {% bootstrap_form filter.form %}
+  <div class="card mb-4">
+    <div class="card-header">
+      <button class="btn btn-link text-decoration-none text-dark w-100" 
+              type="button" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#filterCollapse" 
+              aria-expanded="false" 
+              aria-controls="filterCollapse">
+        <i class="bi bi-funnel"></i> 篩選條件
+        <i class="bi bi-chevron-down float-end"></i>
+      </button>
+    </div>
+    <div class="collapse" id="filterCollapse">
+      <div class="card-body">
+        <form method="get">
+          {% bootstrap_form filter.form %}
 
-        <div class="d-flex gap-2">
-          {% bootstrap_button button_type="submit" content="搜尋" %}
-          <a href="{% url 'blog:author_list' %}" class="btn btn-secondary">清除</a>
-        </div>
-      </form>
+          <div class="d-flex gap-2">
+            {% bootstrap_button button_type="submit" content="搜尋" %}
+            <a href="{% url 'blog:author_list' %}" class="btn btn-secondary">清除</a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <div class="row">

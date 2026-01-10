@@ -29,4 +29,6 @@ urlpatterns = [
     path("advanced-search/", views.advanced_search, name="advanced_search"),
     path("color-filter/", views.color_filter, name="color_filter"),
     path("contact/", views.contact, name="contact"),
+    path("cookie-counter/", views.cookie_counter, name="cookie_counter"),
+    path("theme/", views.theme_preference, name="theme_preference"),
 ]
