@@ -4,7 +4,8 @@ from blog.forms import ArticleForm, AuthorForm, TagForm
 from django.contrib import messages
 from blog.filters import ArticleFilter, AuthorFilter, TagFilter
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 
@@ -20,12 +21,13 @@ class ArticleDetailView(DetailView):
     pk_url_kwarg = "article_id"
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Article
     form_class = ArticleForm
     template_name = "blog/article_create.html"
     permission_required = "blog.add_article"
     raise_exception = True
+    success_message = "文章「%(title)s」已成功建立。"
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -36,21 +38,22 @@ class ArticleCreateView(CreateView):
         return redirect(self.get_success_url())
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
     form_class = ArticleForm  #
     template_name = "blog/article_edit.html"
     pk_url_kwarg = "article_id"
     permission_required = "blog.change_article"
     raise_exception = True
+    success_message = "文章「%(title)s」已成功更新。"
 
-    def form_valid(self, form):
-        self.object = form.save()
-        messages.success(self.request, f"文章「{self.object.title}」已成功更新。")
-        return redirect(self.get_success_url())
+    # def form_valid(self, form):
+    #     self.object = form.save()
+    #     messages.success(self.request, f"文章「{self.object.title}」已成功更新。")
+    #     return redirect(self.get_success_url())
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Article
     template_name = "blog/article_delete.html"  # 指定渲染的頁面
     pk_url_kwarg = "article_id"  # 從URL中取得文章ID
@@ -58,10 +61,12 @@ class ArticleDeleteView(DeleteView):
     permission_required = "blog.change_article"
     raise_exception = True
 
-    def form_valid(self, form):  # 覆寫form_valid方法以添加自定義行為讓提示訊息出現
-        messages.success(self.request, f"文章「{self.object.title}」已成功刪除。")
-        self.object.delete()
-        return redirect(self.get_success_url())
+    # def form_valid(self, form):  # 覆寫form_valid方法以添加自定義行為讓提示訊息出現
+    #     messages.success(self.request, f"文章「{self.object.title}」已成功刪除。")
+    #     self.object.delete()
+    #     return redirect(self.get_success_url())
+    def get_success_message(self, cleaned_data):
+        return f"文章「{self.object.title}」已成功刪除。"
 
 
 def article_bulk_delete(request):
