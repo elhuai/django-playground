@@ -1,67 +1,67 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import Article, Author, Tag
 from blog.forms import ArticleForm, AuthorForm, TagForm
-from django.utils import timezone
 from django.contrib import messages
 from blog.filters import ArticleFilter, AuthorFilter, TagFilter
-from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+
+from django.urls import reverse_lazy
+from django_filters.views import FilterView
 
 
-def article_list(request):
-    filter_ = ArticleFilter(
-        request.GET or None,
-        queryset=Article.objects.filter(is_deleted=False)
-        .select_related("author")
-        .prefetch_related("tags"),
-    )  # filter 有一個內建function所以刻意加上底線 filter_ 來命名
-    return render(
-        request, "blog/article_list.html", {"filter": filter_}
-    )  # filter_資料以filter名稱傳到前端的時候就轉為filter
+class ArticleListView(FilterView):
+    queryset = Article.objects.select_related("author").prefetch_related("tags")
+    filterset_class = ArticleFilter
+    template_name = "blog/article_list.html"
 
 
-def article_detail(request, article_id):
-    article = get_object_or_404(
-        Article.objects.select_related("author").prefetch_related("tags"),
-        id=article_id,
-    )
-    return render(request, "blog/article_detail.html", {"article": article})
+class ArticleDetailView(DetailView):
+    queryset = Article.objects.select_related("author").prefetch_related("tags")
+    pk_url_kwarg = "article_id"
 
 
-@login_required
-def article_create(request):
-    form = ArticleForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        article = form.save(commit=False)
-        article.created_by = request.user
-        article.save()
+class ArticleCreateView(CreateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = "blog/article_create.html"
+    permission_required = "blog.add_article"
+    raise_exception = True
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
         form.save_m2m()
-        messages.success(request, f"文章「{article.title}」已成功建立。")
-        return redirect("blog:article_detail", article_id=article.id)
-    return render(request, "blog/article_create.html", {"form": form})
+        messages.success(self.request, f"文章「{self.object.title}」已成功建立。")
+        return redirect(self.get_success_url())
 
 
-@login_required
-def article_edit(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
-    form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
-    if form.is_valid():
-        article = form.save()
-        messages.success(request, f"文章「{article.title}」已成功更新。")
-        return redirect("blog:article_detail", article_id=article.id)
+class ArticleUpdateView(UpdateView):
+    model = Article
+    form_class = ArticleForm  #
+    template_name = "blog/article_edit.html"
+    pk_url_kwarg = "article_id"
+    permission_required = "blog.change_article"
+    raise_exception = True
 
-    return render(request, "blog/article_edit.html", {"form": form, "article": article})
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, f"文章「{self.object.title}」已成功更新。")
+        return redirect(self.get_success_url())
 
 
-@login_required
-def article_delete(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
-    if request.method == "POST":
-        article.is_deleted = True
-        article.deleted_at = timezone.now()
-        article.save()  # 不是 delete()！
-        messages.success(request, f"文章「{article.title}」已成功刪除。")
-        return redirect("blog:article_list")
-    return render(request, "blog/article_delete.html", {"article": article})
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = "blog/article_delete.html"  # 指定渲染的頁面
+    pk_url_kwarg = "article_id"  # 從URL中取得文章ID
+    success_url = reverse_lazy("blog:article_list")  # 刪除後重定向的URL
+    permission_required = "blog.change_article"
+    raise_exception = True
+
+    def form_valid(self, form):  # 覆寫form_valid方法以添加自定義行為讓提示訊息出現
+        messages.success(self.request, f"文章「{self.object.title}」已成功刪除。")
+        self.object.delete()
+        return redirect(self.get_success_url())
 
 
 def article_bulk_delete(request):
