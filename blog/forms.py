@@ -16,6 +16,7 @@ class ArticleForm(forms.ModelForm):
             "title": "標題",
             "content": "內容",
             "author": "作者",
+            "cover_image": "封面圖片",
             "tags": "標籤",
         }
         error_messages = {
