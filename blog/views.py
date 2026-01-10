@@ -4,6 +4,7 @@ from blog.forms import ArticleForm, AuthorForm, TagForm
 from django.utils import timezone
 from django.contrib import messages
 from blog.filters import ArticleFilter, AuthorFilter, TagFilter
+from django.contrib.auth.decorators import login_required
 
 
 def article_list(request):
@@ -26,18 +27,22 @@ def article_detail(request, article_id):
     return render(request, "blog/article_detail.html", {"article": article})
 
 
+@login_required
 def article_create(request):
-    form = ArticleForm(request.POST or None)
+    form = ArticleForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        article = form.save()
+        article = form.save(commit=False)
+        article.created_by = request.user
+        article.save()
         messages.success(request, f"文章「{article.title}」已成功建立。")
         return redirect("blog:article_detail", article_id=article.id)
     return render(request, "blog/article_create.html", {"form": form})
 
 
+@login_required
 def article_edit(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    form = ArticleForm(request.POST or None, instance=article)
+    form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
     if form.is_valid():
         article = form.save()
         messages.success(request, f"文章「{article.title}」已成功更新。")
@@ -46,6 +51,7 @@ def article_edit(request, article_id):
     return render(request, "blog/article_edit.html", {"form": form, "article": article})
 
 
+@login_required
 def article_delete(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     if request.method == "POST":

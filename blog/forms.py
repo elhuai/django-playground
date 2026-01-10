@@ -5,7 +5,13 @@ from blog.models import Article, Author, Tag
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ["title", "content", "author", "tags"]  # 表單要產生的欄位
+        fields = [
+            "title",
+            "content",
+            "author",
+            "cover_image",
+            "tags",
+        ]  # 表單要產生的欄位
         labels = {
             "title": "標題",
             "content": "內容",

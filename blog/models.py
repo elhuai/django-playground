@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.templatetags.static import static
 
 
 class Author(models.Model):
@@ -21,11 +23,19 @@ class Tag(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    cover_image = models.ImageField(
+        upload_to="articles/covers/",
+        blank=True,
+        null=True,
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
-    deleted_at = models.DateTimeField(null=True, blank=True)
 
     author = models.ForeignKey(
         Author,
@@ -43,3 +53,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_cover_image_url(self):
+        if self.cover_image:
+            return self.cover_image.url
+
+        return static("blog/images/default-cover.jpg")
