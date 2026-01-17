@@ -71,6 +71,7 @@ urlpatterns = [
     path("practices/", include("practices.urls")),
     path("blog/", include("blog.urls")),
     path("auth/", include((auth_urlpatterns, "auth"))),
+    path("api-drf/blog/", include("blog.drf_urls")),
 ]
 
 if settings.DEBUG:
