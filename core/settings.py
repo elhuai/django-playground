@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "django_extensions",
     "django_filters",
+    "rest_framework"  # 安裝時叫做djangorestframework
     # 本地 apps
     "practices",
     "blog",
