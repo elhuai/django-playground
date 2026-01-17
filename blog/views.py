@@ -30,12 +30,16 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
     success_message = "文章「%(title)s」已成功建立。"
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.save()
-        form.save_m2m()
-        messages.success(self.request, f"文章「{self.object.title}」已成功建立。")
-        return redirect(self.get_success_url())
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.created_by = self.request.user
+    #     self.object.save()
+    #     form.save_m2m()
+    #     messages.success(self.request, f"文章「{self.object.title}」已成功建立。")
+    #     return redirect(self.get_success_url())
 
 
 class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
