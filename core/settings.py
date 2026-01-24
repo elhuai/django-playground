@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+from django.utils.translation import gettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # WhiteNoise 處理靜態檔案
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware", # 自動偵測使用者目前的語系
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -126,7 +127,17 @@ AUTH_PASSWORD_VALIDATORS = [  # 密碼要通過什麼樣的認證
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "zh-hant"
+LANGUAGE_CODE = "zh-hant" # 預設語言為何
+
+LANGUAGES = [ # 專案支援哪種語言
+    ("zh-hant", _("繁體中文")),
+    ("en", _("English")),
+]
+
+LOCALE_PATHS = [ #每個語言產生翻譯的檔案，指定位置在哪
+    BASE_DIR / "locale",
+]
+
 
 TIME_ZONE = "Asia/Taipei"  # 時區
 

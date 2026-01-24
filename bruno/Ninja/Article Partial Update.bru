@@ -1,0 +1,26 @@
+meta {
+  name: Article Partial Update
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://127.0.0.1:8000/api-ninja/blog/articles/20
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer 28937cce8db6d20a716c0ef74e24d4e4b46d5732
+}
+
+body:json {
+  {
+    "content": "Good Good Good111"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

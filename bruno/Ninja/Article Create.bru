@@ -1,19 +1,19 @@
 meta {
-  name: Login
+  name: Article Create
   type: http
-  seq: 7
+  seq: 3
 }
 
 post {
-  url: http://127.0.0.1:8000/api-drf/token
+  url: http://127.0.0.1:8000/api-ninja/blog/articles
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "username": "admin",
-    "password": "admin"
+    "title": "Hello",
+    "content": "Good"
   }
 }
 
