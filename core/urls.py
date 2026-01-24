@@ -5,6 +5,10 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path, reverse_lazy
 from django.views.generic import RedirectView
 from core import views
+from rest_framework.authtoken.views import obtain_auth_token
+from core.ninja import api as ninja_api
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 
 auth_urlpatterns = [
     path(
@@ -72,6 +76,16 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     path("auth/", include((auth_urlpatterns, "auth"))),
     path("api-drf/blog/", include("blog.drf_urls")),
+    path("api-drf/token", obtain_auth_token, name="api-token"),
+    # Django Ninja API
+    path("api-ninja/", ninja_api.urls),
+    # API 文件
+    path("api-drf/schema", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api-drf/docs",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),  
 ]
 
 if settings.DEBUG:

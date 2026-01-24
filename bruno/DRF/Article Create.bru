@@ -1,7 +1,7 @@
 meta {
   name: Article Create
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
@@ -11,16 +11,17 @@ post {
 }
 
 headers {
-  Authorization: 28937cce8db6d20a716c0ef74e24d4e4b46d5732
+  Authorization: Token ba32db20f639d1bfd7ff43db6e184822ec60fee6
 }
 
 body:json {
-    {
-      "title": "API",
-      "content": "DRF"
-    }
+  {
+    "title": "API",
+    "content": "DRF"
+  }
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

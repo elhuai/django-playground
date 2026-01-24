@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "rest_framework",  # 安裝時叫做djangorestframework
+    "rest_framework.authtoken",
+    "drf_spectacular",
     # 本地 apps
     "practices",
     "blog",
@@ -166,3 +168,38 @@ LOGOUT_REDIRECT_URL = "/blog/articles/"
 SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 
 RUNSERVER_PLUS_PRINT_SQL_TRUNCATE = None
+
+# Auth
+
+LOGIN_REDIRECT_URL = "blog:article_list"
+
+LOGIN_URL = "auth:login"
+
+LOGOUT_REDIRECT_URL = "auth:login"
+
+
+# Email
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+
+# DRF
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Blog API",
+    "DESCRIPTION": "Django 大冒險的部落格 API",
+    "VERSION": "1.0.0",
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Article List
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://127.0.0.1:8000/api-drf/blog/articles?is_published=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  is_published: true
+  ~ordering: -title
+  ~ordering: title
+  ~search: 12
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
