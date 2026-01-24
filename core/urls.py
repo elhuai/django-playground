@@ -72,6 +72,7 @@ auth_urlpatterns = [
 urlpatterns = [
     path("", RedirectView.as_view(pattern_name="blog:article_list"), name="root"),
     path("admin/", admin.site.urls),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("practices/", include("practices.urls")),
     path("blog/", include("blog.urls")),
     path("auth/", include((auth_urlpatterns, "auth"))),

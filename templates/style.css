@@ -149,3 +149,58 @@ a:hover {
 .alert-dismissible .btn-close:hover {
   opacity: 0.8;
 }
+
+/* 語言切換下拉菜單 */
+.dropdown-menu {
+  background-color: var(--soft-beige);
+  border: 1px solid var(--warm-peach);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  color: var(--warm-text);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--warm-peach);
+  color: white;
+}
+
+.dropdown-item.active {
+  background-color: var(--muted-coral);
+  color: white;
+}
+
+/* 語言下拉菜單按鈕樣式 */
+.nav-item.dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+/* 下拉菜單中的表單按鈕 */
+.dropdown-item {
+  padding: 0;
+}
+
+.dropdown-item form {
+  width: 100%;
+}
+
+.dropdown-item button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--warm-text);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item button:hover {
+  background-color: var(--warm-peach);
+  color: white;
+}
