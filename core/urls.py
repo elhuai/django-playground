@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -69,25 +70,30 @@ auth_urlpatterns = [
     ),
 ]
 
+# 不需要語言前綴的 URLs（例如：API、語言切換等）
 urlpatterns = [
     path("", RedirectView.as_view(pattern_name="blog:article_list"), name="root"),
-    path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
-    path("practices/", include("practices.urls")),
-    path("blog/", include("blog.urls")),
-    path("auth/", include((auth_urlpatterns, "auth"))),
+    # API URLs（不需要語言前綴）
     path("api-drf/blog/", include("blog.drf_urls")),
-    path("api-drf/token", obtain_auth_token, name="api-token"),
-    # Django Ninja API
+    path("api-drf/token/", obtain_auth_token, name="api-token"),
     path("api-ninja/", ninja_api.urls),
-    # API 文件
-    path("api-drf/schema", SpectacularAPIView.as_view(), name="schema"),
+    path("api-drf/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "api-drf/docs",
+        "api-drf/docs/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
-    ),  
+    ),
 ]
+
+# 需要語言前綴的 URLs
+urlpatterns += i18n_patterns(
+    path("admin/", admin.site.urls),
+    path("blog/", include("blog.urls")),
+    path("practices/", include("practices.urls")),
+    path("auth/", include((auth_urlpatterns, "auth"))),
+    prefix_default_language=True,  # 所有語言都加前綴，包括預設語言
+)
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
